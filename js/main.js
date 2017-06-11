@@ -119,7 +119,7 @@ var App = function(makehuman, dat, _, THREE, Detector, Nanobar, Stats) {
             self.gui.open();
 
             // load this last as it's slow (loads a ~150mb bin files with targets)
-            self.human.loadTargets(`${self.resources.baseUrl}targets/${self.resources.targets}`).then(() => {
+            self.human.loadTargets("http://mhwebui.wassname.com/data/targets/targets.bin").then(() => {
                 self.setHumanDefaults() // run again now targets are loaded
 
                 self.nanobar.go(90)
