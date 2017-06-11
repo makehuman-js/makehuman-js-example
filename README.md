@@ -4,6 +4,8 @@ Example web app using [makehuman-js](https://github.com/makehuman-js/makehuman-j
 
 Demo [makehuman-js.github.io/makehuman-js-example](makehuman-js.github.io/makehuman-js-example)
 
+![](docs/screenshot.png)
+
 ## Install and run
 
 - clone the repository
