@@ -1,0 +1,17 @@
+{
+  "name": "mhwebui",
+  "version": "0.0.7",
+  "description": "Webui for makehuman based on threejs",
+  "scripts": {
+    "start": "http-server -o"
+  },
+  "author": "wassname",
+  "dependencies": {
+    "dat-gui": "^0.5.0",
+    "lodash": "^4.5.1",
+    "makehuman-js": "^0.1.2",
+    "nanobar": "^0.2.1",
+    "stats.js": "0.0.14-master",
+    "three": "^0.74.0"
+  }
+}

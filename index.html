@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>makehuman-js example Web UI</title>
+        <link rel="stylesheet" href="css/style.css">
+    </head>
+    <body>
+<div id="info"><a href="github.com/makehuman-js/makehuman-js">makehuman-js</a> example Web UI</div>
+<div id="stats"></div>
+<div id="nav"></div>
+<div id="container"></div>
+<div id="progress-bar"></div>
+    </body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r82/three.js" charset="utf-8"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.6.5/dat.gui.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stats.js/r16/Stats.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/nanobar/0.4.2/nanobar.min.js"></script>
+    <script src="node_modules/three/examples/js/controls/OrbitControls.js"></script>
+    <script src="node_modules/three/examples/js/renderers/Projector.js"></script>
+    <script src="node_modules/three/examples/js/Detector.js"></script>
+    <script src="node_modules/makehuman-js/dist/makehuman.js" charset="utf-8"></script>
+    <script src="js/main.js" charset="utf-8"></script>
+    <script type="text/javascript">
+
+    var loader = new THREE.XHRLoader();
+    var app
+
+    // load some json data first
+    var loadUrls = {
+        modeling_sliders: 'node_modules/makehuman-data/src/json/sliders/modeling_sliders.json',
+        resources: 'node_modules/makehuman-data/public/data/resources.json'
+    }
+    Promise.all(
+        _.values(loadUrls).map(function(url){
+            return new Promise(function(resolve, reject) {
+                loader.load(url, function(data){
+                    resolve(JSON.parse(data))
+                })
+            })
+        })
+    )
+    .then(data => {
+        var keys = Object.keys(loadUrls)
+        for (var i = 0; i < keys.length; i++) {
+            key = keys[i]
+            window[key]=data[i]
+        }
+    })
+    .then(() => {
+        resources.baseUrl = "node_modules/makehuman-data/public/data/"
+        app = new App(resources, modeling_sliders)
+        app.init()
+        app.animate()
+    })
+
+    </script>
+</html>

@@ -1,0 +1,27 @@
+{
+    "rules": {
+        "comma-dangle": [0, "never"],
+        "no-unused-vars": 0,
+        "no-console": 0
+    },
+    "env": {
+        "qunit": true,
+        "es6": true,
+        "node": true,
+        "browser": true,
+        "jquery": true,
+        "amd": true,
+        "mocha": true
+    },
+    "parserOptions": {
+        "ecmaVersion": 6,
+        "sourceType": "module",
+        "ecmaFeatures": {
+          "jsx": true,
+          impliedStrict:"true",
+          "experimentalObjectRestSpread": true,
+          "modules": true
+        },
+    },
+    "extends": "eslint:recommended"
+}
