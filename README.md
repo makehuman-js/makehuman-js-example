@@ -2,8 +2,6 @@
 
 Example web app using [makehuman-js](https://github.com/makehuman-js/makehuman-js)
 
-Demo [makehuman-js.github.io/makehuman-js-example](makehuman-js.github.io/makehuman-js-example)
-
 ![](docs/screenshot.png)
 
 ## Install and run
