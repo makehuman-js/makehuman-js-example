@@ -163,7 +163,7 @@ var App = function(makehuman, dat, _, THREE, Detector, Nanobar, Stats) {
         this.camera.aspect = window.innerWidth / window.innerHeight;
         this.camera.updateProjectionMatrix();
 
-        this.renderer.setSize(window.innerWidth * 2 / 3, window.innerHeight * 2 / 3);
+        this.renderer.setSize(window.innerWidth * 4 / 5, window.innerHeight * 4 / 5);
     }
 
     // everything to update
