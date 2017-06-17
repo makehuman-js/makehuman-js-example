@@ -105,6 +105,7 @@ var App = function(makehuman, dat, _, THREE, Detector, Nanobar, Stats) {
                     self.modifierConfig[_modifier.name] = _modifier.getValue();
                 }
             }
+            // also randomise pose and wardrobe?
         };
         modifierGui.add(this, 'randomizeModifiers');
 
@@ -361,9 +362,14 @@ var App = function(makehuman, dat, _, THREE, Detector, Nanobar, Stats) {
     }
 
     App.prototype.setModifierDefaults = function () {
-        this.human.modifiers.children['macrodetails/Gender'].setValue(0)
-        this.human.modifiers.children['macrodetails-proportions/BodyProportions'].setValue(1)
-        this.human.modifiers.children['macrodetails-height/Height'].setValue(0.5)
+        // this.human.modifiers.children['macrodetails/Gender'].setValue(0)
+        // this.human.modifiers.children['macrodetails-proportions/BodyProportions'].setValue(1)
+        // this.human.modifiers.children['macrodetails-height/Height'].setValue(0.5)
+
+        // set some modifier buttons
+        var macroControllers = this.gui.gui.__folders.Modifiers.__folders["Macro modelling"].__folders.Macro.__controllers
+        macroControllers.find(c=>c.property=="Gender").setValue(0)
+        macroControllers.find(c=>c.property=="Proportions").setValue(1)
     }
 
     App.prototype.onWindowResize = function() {
