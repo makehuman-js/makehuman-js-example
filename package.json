@@ -1,13 +1,14 @@
 {
   "name": "mhwebui",
   "version": "0.0.7",
-  "description": "Webui for makehuman based on threejs",
+  "description": "Webui for makehuman-js based on threejs",
   "scripts": {
     "start": "http-server -o"
   },
   "author": "wassname",
+  "license": "AGPLv3",
   "dependencies": {
-    "dat-gui": "^0.5.0",
+    "dat.gui": "https://github.com/dataarts/dat.gui/archive/v0.6.5.tar.gz",
     "lodash": "^4.5.1",
     "makehuman-js": "^0.1.2",
     "nanobar": "^0.2.1",
