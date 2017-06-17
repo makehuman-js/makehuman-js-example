@@ -386,10 +386,11 @@ var App = function(makehuman, dat, _, THREE, Detector, Nanobar, Stats) {
     App.prototype.render = function() {
         var delta = 0.75 * this.clock.getDelta();
         this.stats.update();
-        // update skinning
-        // this.human.mixer.update(delta);
-        if (this.renderer && this.scene && this.camera) {
+        if (this.renderer && this.scene && this.camera && this.human) {
+            // you need the before and after call to update the body
+            this.human.onBeforeRender()
             this.renderer.render(this.scene, this.camera)
+            this.human.onAfterRender()
         }
     }
 
