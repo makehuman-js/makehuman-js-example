@@ -24,22 +24,21 @@
     <script src="js/main.js" charset="utf-8"></script>
     <script type="text/javascript">
 
-    var loader = new THREE.XHRLoader();
     var app
-
     // load some json data first
     var loadUrls = {
         modeling_sliders: 'node_modules/makehuman-data/src/json/sliders/modeling_sliders.json',
         resources: 'node_modules/makehuman-data/public/data/resources.json'
     }
+    var loader = new THREE.XHRLoader();
     Promise.all(
-        _.values(loadUrls).map(function(url){
-            return new Promise(function(resolve, reject) {
-                loader.load(url, function(data){
-                    resolve(JSON.parse(data))
-                })
-            })
-        })
+        _.values(loadUrls).map((url) => new Promise((resolve, reject) =>
+                loader.load(
+                    url,
+                    (data) => resolve(JSON.parse(data))
+                )
+            )
+        )
     )
     .then(data => {
         var keys = Object.keys(loadUrls)
@@ -49,6 +48,7 @@
         }
     })
     .then(() => {
+        // start the app
         resources.baseUrl = "node_modules/makehuman-data/public/data/"
         app = new App(resources, modeling_sliders)
         app.init()
