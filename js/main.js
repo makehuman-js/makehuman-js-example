@@ -111,12 +111,14 @@ var App = function(makehuman, dat, _, THREE, Detector, Nanobar, Stats) {
                 // load: JSON
             });
             self.setupModifiersGUI();
-            // TODO setupPoseGUI();
-            // TODO setupProxyGUI()
+            self.setupPoseGUI();
+            self.setupProxyGUI();
             self.setupSkinGUI();
             self.setupBodyPartGUI();
             self.gui.width = 300;
             self.gui.open();
+            self.gui.__folders.Modifiers.__folders["Macro modelling"].open()
+            self.gui.__folders.Modifiers.__folders["Macro modelling"].__folders.Macro.open()
 
             // load this last as it's slow (loads a ~150mb bin files with targets)
             self.human.loadTargets(`${self.resources.baseUrl}targets/${self.resources.targets}`).then(() => {
@@ -128,21 +130,23 @@ var App = function(makehuman, dat, _, THREE, Detector, Nanobar, Stats) {
                 self.human.io.fromUrl()
 
                 self.nanobar.go(100)
+
             })
         });
     }
 
     App.prototype.setHumanDefaults = function(){
-        // pose them
-        this.human.setPose('standing04')
+        // pose them in a random pose
+        var randomPose = _.sample(['standing01', 'standing02', 'standing03', 'standing04', 'standing05'])
+        this.human.setPose(randomPose)
 
         // add some default clothes
-        this.human.proxies.toggleProxy('female_sportsuit01')
-        this.human.proxies.toggleProxy('eyebrow010')
-        this.human.proxies.toggleProxy('Braid01')
-        this.human.proxies.toggleProxy('data/proxies/eyes/Low-Poly/Low-Poly.json#brown')
+        this.human.proxies.toggleProxy('female_sportsuit01',true)
+        this.human.proxies.toggleProxy('eyebrow010',true)
+        this.human.proxies.toggleProxy('Braid01',true)
+        this.human.proxies.toggleProxy('data/proxies/eyes/Low-Poly/Low-Poly.json#brown',true)
 
-        // lets set the color to be a mixed average skin color
+        // lets set the color to be a mixed/average skin color
         this.human.mesh.material.materials[0].color = new THREE.Color(0.6451834425332652, 0.541358126188251, 0.46583313890034395)
 
         if (Object.keys(this.human.targets.children).length){
@@ -270,24 +274,65 @@ var App = function(makehuman, dat, _, THREE, Detector, Nanobar, Stats) {
         modifierGui.open();
     }
 
+    App.prototype.setupProxyGUI = function () {
+        var self = this;
+        this.proxyConfig = {}
+        var proxiesbyGroup = _.groupBy(this.human.proxies.children, p=>p.group)
+        var proxyGui = this.gui.addFolder("Wardrobe");
+        var groups = Object.keys(proxiesbyGroup)
+        groups.map(group=>{
+            var proxyNames = proxiesbyGroup[group].map(p=>p.name)
+            if (group=="clothes"){
+                // dat-gui checkboxe fields
+                var proxyGroupGui = proxyGui.addFolder(group);
+                this.proxyConfig[group] = proxiesbyGroup[group].reduce((o,p)=>{o[p.name]=p.visible;return o}, {})
+                proxyNames.map((proxyName) => {
+                    proxyGroupGui.add(this.proxyConfig[group], proxyName).onChange(function(state) {
+                        self.human.proxies.toggleProxy(proxyName, state)
+                    })
+                })
+            } else {
+                // dat-gui select field
+                var activeProxy =  proxiesbyGroup[group].find(p=>p.visible)
+                this.proxyConfig[group] = activeProxy ? activeProxy.name: ''
+                proxyGui.add(this.proxyConfig, group, proxyNames).onChange(function(proxyName) {
+                    proxiesbyGroup[group].map(proxy => self.human.proxies.toggleProxy(proxy.name, false))
+                    self.human.proxies.toggleProxy(proxyName, true)
+                });
+            }
+            proxiesbyGroup[group]
+        })
+        this.gui.remember(this.poseConfig);
+        proxyGui.open()
+    }
+
+    App.prototype.setupPoseGUI = function () {
+        var self = this;
+        var poseNames = Object.keys(this.human.poses)
+        var poseGui = this.gui//.addFolder("Poses");
+        this.poseConfig = {
+            Pose: 'standing04'
+        };
+        this.gui.remember(this.poseConfig);
+        this.gui.add(self.poseConfig, 'Pose', poseNames).onChange(function(pose) {
+            self.human.setPose(pose)
+        });
+
+    }
+
     /** Set up controls using dat-gui **/
     App.prototype.setupSkinGUI = function() {
         var self = this;
-
-        var skinGui = this.gui.addFolder("Skins");
-        var skinNames = this.resources.skins // _.map(this.resources.skins, 'name');
+        var skinNames = this.resources.skins
 
         this.skinConfig = {
-            skin: skinNames[0]
+            Skin: skinNames[0]
         };
         this.gui.remember(this.skinConfig);
 
-        skinGui.add(self.skinConfig, 'skin', skinNames).onChange(function(skin) {
-            // var i = skinNames.indexOf(skin);
+        this.gui.add(self.skinConfig, 'Skin', skinNames).onChange(function(skin) {
             self.human.setSkin(skin);
         });
-
-        skinGui.open();
     }
 
     /** Set up a dat-gui panel to change opacity of parts of the body mesh **/
