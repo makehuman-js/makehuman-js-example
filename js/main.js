@@ -186,6 +186,7 @@ var App = function(makehuman, dat, _, THREE, Detector, Nanobar, Stats) {
             this.human.onAfterRender()
         }
     }
+    
 
     /**
      * Builds a simple interface to makehuman-js using dat.gui
@@ -207,6 +208,7 @@ var App = function(makehuman, dat, _, THREE, Detector, Nanobar, Stats) {
         this.setupProxyGUI();
         this.setupSkinGUI();
         this.setupBodyPartGUI();
+        this.setupIOGUI();
 
         this.gui.width = 300;
         this.gui.open();
@@ -319,6 +321,17 @@ var App = function(makehuman, dat, _, THREE, Detector, Nanobar, Stats) {
 
         modifierGui.open();
     }
+    
+    GUI.prototype.setupIOGUI = function () {
+        this.downloadObj = function() {
+			// Uses FileSaver.js/1.3.3
+			saveAs(
+				new Blob( [self.human.io.toObj()], {type : 'text/plain;charset=utf-8'} ),
+					'test.obj'
+				);
+			};
+        this.gui.add(this, 'downloadObj');
+	}
 
     GUI.prototype.setupProxyGUI = function () {
         var self = this;
