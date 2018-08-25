@@ -27,8 +27,8 @@ If you want to edit makehuman-js and makehuman-data as well you will want to set
   - open a seperate terminal, go to this folder, and run `npm run watch`. This will have [webpack watch](https://webpack.js.org/configuration/watch/) for changes to the source code (such as human.js) and if it sees any it will regerate makehuman.js. Leave this running while you develop.
   - If you get "webpack not found" or similar, while running the previous step you may also need to install webpack globally to make the command available in the terminal: `npm install -g webpack@2.1.0`.
 - in the makehuman-js-example folder 
-  - run `npm link makehuman-js` and `npm link makehuman-data`
   - install dependencies with `npm install`
+  - run `npm link makehuman-js` and `npm link makehuman-data`
   - run `npm start`
 - open http://localhost:8080 in the browser
 
